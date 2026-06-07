@@ -701,7 +701,7 @@
 </div><!-- end .coin-stage -->
 
 <!-- ============================================================
-  QUOTE OF THE DAY — fetched from api.quotable.io on load.
+  QUOTE OF THE DAY — fetched from QuoteSlate on load.
   Shows "Loading..." initially, replaced when the API responds.
 ============================================================ -->
 <div class="quote-wrap">
@@ -836,9 +836,11 @@
 
 
   // ── Quote of the Day ───────────────────────────────────────
-  // Fetches a random inspirational quote from api.quotable.io
-  // — a free, open-source API with full CORS support (works
-  // directly from the browser with no API key required).
+  // Fetches a random inspirational quote from QuoteSlate
+  // (quoteslate.vercel.app) — a free, open-source, actively
+  // maintained API with full CORS support and no API key.
+  // (Replaced api.quotable.io, which went offline after its SSL
+  // certificate expired and was left unmaintained.)
   //
   // CACHING STRATEGY:
   // To avoid hitting the API every time the app opens, we store
@@ -873,21 +875,30 @@
       }
     } catch {} // localStorage can fail in private browsing — fail silently
 
-    // No valid cache — fetch from the API
+    // No valid cache — fetch from the API.
+    // (Quotable / api.quotable.io is dead — expired SSL, unmaintained.
+    //  Switched to QuoteSlate: CORS-enabled, actively maintained, no key.)
     // maxLength=120 keeps quotes short enough to fit the card
     try {
-      const res  = await fetch('https://api.quotable.io/quotes/random?maxLength=120');
+      const res  = await fetch('https://quoteslate.vercel.app/api/quotes/random?maxLength=120');
       if (!res.ok) throw new Error('API error'); // treat non-200 responses as failures
       const data = await res.json();
-      const q    = data[0]; // API returns an array, we take the first item
 
-      // Save to cache so tomorrow this branch runs only once
+      // Handle either an object or array response, and either a "quote"
+      // field (QuoteSlate) or "content" field (Quotable-style), so a
+      // field-name mismatch can't break it.
+      const q       = Array.isArray(data) ? data[0] : data;
+      const content = q.quote || q.content;
+      const author  = q.author || 'Unknown';
+      if (!content) throw new Error('Unexpected response shape');
+
+      // Save to cache so this branch runs only once per day
       try {
-        localStorage.setItem(cacheKey,  JSON.stringify({ content: q.content, author: q.author }));
+        localStorage.setItem(cacheKey,  JSON.stringify({ content, author }));
         localStorage.setItem(cacheDate, today);
       } catch {} // if localStorage is full or blocked, just skip caching
 
-      showQuote(q.content, q.author);
+      showQuote(content, author);
 
     } catch {
       // API is unreachable (no internet, API down, etc.)
