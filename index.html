@@ -905,11 +905,35 @@
       // Fall back to hardcoded quotes so the card is never empty.
       // These are baked directly into the code — no network needed.
       const fallbacks = [
-        { content: "The universe is under no obligation to make sense to you.", author: "Neil deGrasse Tyson" },
-        { content: "Indecision is the thief of opportunity.",                   author: "Jim Rohn" },
-        { content: "When in doubt, flip a coin. At least you'll know what you were hoping for.", author: "Unknown" },
-        { content: "Sometimes the smallest decision can change your life forever.", author: "Keri Russell" },
-        { content: "Your life is the sum result of all the choices you make.",  author: "Wayne Dyer" },
+        // Resilience & Overcoming Adversity
+        { content: "Fall seven times, stand up eight.", author: "Japanese Proverb" },
+        { content: "Tough times never last, but tough people do.", author: "Robert H. Schuller" },
+        { content: "If you're going through hell, keep going.", author: "Winston Churchill" },
+        { content: "Turn your wounds into wisdom.", author: "Oprah Winfrey" },
+
+        // Discipline & Consistency
+        { content: "Discipline is the bridge between goals and accomplishment.", author: "Jim Rohn" },
+        { content: "Excellence is not an act, but a habit.", author: "Aristotle" },
+        { content: "Success is the sum of small efforts, repeated day-in and day-out.", author: "Robert Collier" },
+        { content: "Small disciplined actions create big results.", author: "Anonymous" },
+
+        // Kindness & Empathy
+        { content: "In a world where you can be anything, be kind.", author: "Unknown" },
+        { content: "No act of kindness, no matter how small, is ever wasted.", author: "Aesop" },
+        { content: "Kindness is the greatest wisdom.", author: "Unknown" },
+        { content: "Be kind, for everyone you meet is fighting a hard battle.", author: "Plato" },
+
+        // Courage & Risk-Taking
+        { content: "Only those who dare to fail greatly can ever achieve greatly.", author: "Robert F. Kennedy" },
+        { content: "Courage is being scared to death, but saddling up anyway.", author: "John Wayne" },
+        { content: "Fortune favors the bold.", author: "Virgil" },
+        { content: "Do one thing every day that scares you.", author: "Eleanor Roosevelt" },
+
+        // Growth & Self-Improvement
+        { content: "Be not afraid of growing slowly; be afraid only of standing still.", author: "Chinese Proverb" },
+        { content: "We can't become what we need to be by remaining what we are.", author: "Oprah Winfrey" },
+        { content: "The man who moves a mountain begins by carrying away small stones.", author: "Confucius" },
+        { content: "Do the best you can until you know better. Then do better.", author: "Maya Angelou" },
       ];
       // Pick a random one from the list
       const f = fallbacks[Math.floor(Math.random() * fallbacks.length)];
